@@ -1,8 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<img src="https://github.com/user-attachments/assets/fc687071-057f-4680-9f2a-57aab7cf352e" alt="Preview" />
+
+<h1 style="text-align: center;">Payfolio</h1>
+
+Payfolio is a web application designed to make it easy for users to support creators by making small contributions. The platform allows users to choose the number of coffees they want to buy, enter their name and a message (both optional), specify the amount, and donate.
+
+## Features
+
+- Easy-to-use interface for making donations.
+- Responsive design for a seamless experience on all devices.
+- Dark mode support.
+- Secure and fast transactions.
+- Customizable donation options.
+- Integration with Razorpay for handling payments.
+
+## Technologies Used
+
+- Next.js (React framework)
+- Tailwind CSS
+- TypeScript
+- Node.js
+- Razorpay (for payments)
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing.
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v6 or higher) or yarn (v1.22 or higher)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/muhammad-fiaz/payfolio.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd payfolio
+```
+
+3. Install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+### Running the Application
+
+To start the development server, run:
 
 ```bash
 npm run dev
@@ -14,23 +70,42 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build the application for production, run:
 
-## Learn More
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
 
-To learn more about Next.js, take a look at the following resources:
+This will generate an optimized production build.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You can deploy the application to platforms that support Next.js, such as:
 
-## Deploy on Vercel
+- Vercel
+- Netlify
+- Railway
+- DigitalOcean
+- AWS, etc.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Payment Gateway
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Payfolio uses Razorpay to handle payments securely. You will need to set up a Razorpay account and obtain the API keys to integrate it with Payfolio. Follow the Razorpay documentation for detailed instructions on setting up your account and obtaining the necessary credentials.
+
+## Contributing
+
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
