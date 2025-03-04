@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 
 declare global {
@@ -213,7 +214,7 @@ export default function TipForm() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Coffee Selection */}
                     <div className="flex justify-center items-center space-x-4">
-                        <Image src="/logo.png" alt="Logo" width={50} height={50} />
+                        <Image src="/logo.png" alt="Logo" width={50} height={50}/>
                         <span className="text-2xl font-semibold text-black">×</span>
 
                         {/* Coffee Buttons */}
@@ -274,7 +275,7 @@ export default function TipForm() {
                             value={amount}
                             onChange={(e) => {
                                 setAmount(parseFloat(e.target.value) || "");
-                                setErrors({ ...errors, amount: "" });
+                                setErrors({...errors, amount: ""});
                             }}
                             className="mt-2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
@@ -291,6 +292,8 @@ export default function TipForm() {
                     </button>
 
                     {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
+                    <p className="text-center text-sm text-gray-500 mt-3">Payments go directly to <Link href={'https://github.com/muhammad-fiaz'} className={"text-blue-500"}> Muhammad Fiaz.</Link></p>
+
                 </form>
             </div>
             {/* Error Popup Modal */}
