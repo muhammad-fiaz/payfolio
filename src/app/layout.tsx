@@ -27,6 +27,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+        <link rel={"icon"} href={"/favicon.webp"} />
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cover bg-center`}
             style={{ backgroundImage: "url('/background.jpg')" }}
