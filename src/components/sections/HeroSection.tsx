@@ -3,6 +3,8 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {useSession} from "next-auth/react";
+import countryToCurrency from "@/utils/CurrencyProvider";
 
 
 declare global {
@@ -26,6 +28,7 @@ interface RazorpayOptions {
     handler: () => void;
     prefill: {
         name: string;
+        email?: string;
     };
     theme: {
         color: string;
@@ -33,6 +36,8 @@ interface RazorpayOptions {
 }
 
 export default function TipForm() {
+    const { data: session } = useSession();
+    const userEmail = session?.user?.email || "";
     const [selectedCoffees, setSelectedCoffees] = useState<number>(1);
     const [customCoffee, setCustomCoffee] = useState<number>(1);
     const [name, setName] = useState("");
@@ -47,16 +52,21 @@ export default function TipForm() {
     useEffect(() => {
         const fetchCurrency = async () => {
             try {
-                const res = await fetch("https://ipapi.co/json/");
+                const res = await fetch("/api/currency");
                 const data = await res.json();
-                if (data.currency) setCurrency(data.currency);
+
+
+                setCurrency(countryToCurrency[data.country] || "USD");
             } catch (error) {
                 console.error("Failed to fetch currency:", error);
+                setCurrency("USD");
             }
         };
 
         fetchCurrency();
     }, []);
+
+
     // Validation Errors
     const [errors, setErrors] = useState({
         coffee: "",
@@ -163,6 +173,7 @@ export default function TipForm() {
                 },
                 prefill: {
                     name: name,
+                    email: userEmail,
                 },
                 theme: {
                     color: "#6366f1",
