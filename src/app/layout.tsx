@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import dynamic from "next/dynamic";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import React from "react";
 import AuthProvider from "@/utils/AuthProvider";
+
+const Navbar = dynamic(() => import(/* webpackPrefetch: true */ "@/components/Navbar"), {
+});
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,9 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
                                        children,
-                                   }: Readonly<{
-    children: React.ReactNode;
-}>) {
+                                   }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 bg-[url('/background.avif')] bg-cover bg-center bg-no-repeat`}>
