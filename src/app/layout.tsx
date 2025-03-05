@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     title: "Support My Works! | Muhammad Fiaz",
     description:
         "Support my work by making a small contribution. Every donation helps me continue creating and improving my projects.",
+    icons: {
+        icon: "/favicon.webp",
+    },
 };
 
 export default function RootLayout({
@@ -28,16 +31,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <link rel={"icon"} href={"/favicon.webp"} />
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cover bg-center`}
-            style={{ backgroundImage: "url('/background.jpg')" }}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 bg-[url('/background.avif')] bg-cover bg-center bg-no-repeat`}>
         <AuthProvider>
-
-        <Navbar />
-
-        {children}
+            <Navbar />
+            <main className="flex-grow">{children}</main>
         </AuthProvider>
         </body>
         </html>
