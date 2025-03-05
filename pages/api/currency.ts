@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
+import geoip from "geoip-country";
+import countryToCurrency from "@/utils/CurrencyProvider";
 
 interface CurrencyData {
     currency: string;
@@ -8,83 +10,33 @@ interface CurrencyData {
 }
 
 const cache: Record<string, { data: CurrencyData; timestamp: number }> = {};
-// 1 hour
 const COOKIE_NAME = "user_country";
 
-const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 10000) => {
-    return new Promise<Response>((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error("Request timed out")), timeout);
-
-        fetch(url, options)
-            .then((response) => {
-                clearTimeout(timer);
-                resolve(response);
-            })
-            .catch((err) => {
-                clearTimeout(timer);
-                reject(err);
-            });
-    });
-};
-
-const getClientIP = (req: NextApiRequest): string => {
-    const forwarded = req.headers["x-forwarded-for"] as string;
-    if (forwarded) {
-        return forwarded.split(",")[0].trim();
-    }
-    return req.socket.remoteAddress || "";
-};
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        let ip = getClientIP(req);
+        const ip = req.query.ip as string; // Get IP from client-side request
 
-        // Handle localhost scenario (Use an external API in development)
-        if (!ip || ip === "::1" || ip === "127.0.0.1") {
-            console.log(
-                `[${new Date().toISOString()}] 🏠 Local environment detected, fetching real IP`
-            );
-            try {
-                const ipResponse = await fetchWithTimeout("https://api64.ipify.org?format=json");
-                const ipData = await ipResponse.json();
-                ip = ipData.ip;
-            } catch (error) {
-                console.error("❌ Failed to get real IP in development mode:", error);
-            }
+        if (!ip) {
+            console.error("❌ No IP provided");
+            return res.status(400).json({ error: "IP address is required" });
         }
 
-        // Check if country is stored in cookies
-        const cookies = req.headers.cookie || "";
-        const cookieMatch = cookies.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
-        const storedCountry = cookieMatch ? decodeURIComponent(cookieMatch[1]) : null;
+        console.log(`🔄 Fetching country for Client IP: ${ip}`);
 
-        // If the stored country exists and the IP hasn't changed, return it
-        if (storedCountry && cache[ip]) {
-            console.log(
-                `[${new Date().toISOString()}] 🍪 Returning stored country from cookies: ${storedCountry}`
-            );
-            return res.status(200).json({ countryCode: storedCountry, source: "cookie" });
+        // Get country from `geoip-country`
+        const geoData = geoip.lookup(ip);
+        if (!geoData || !geoData.country) {
+            console.error("❌ Failed to determine country from IP.");
+            return res.status(500).json({ error: "Could not determine country" });
         }
 
-        console.log(`[${new Date().toISOString()}] 🔄 Fetching fresh currency data for IP: ${ip}`);
-
-        // Fetch location-based currency data
-        const response = await fetchWithTimeout(`https://ipapi.co/${ip}/json/`);
-        if (!response.ok) {
-            console.error(`[${new Date().toISOString()}] ❌ HTTP error: ${response.status}`);
-            return res.status(response.status).json({ error: "Failed to fetch currency data" });
-        }
-
-        const data = await response.json();
-        if (!data.currency || !data.country_code) {
-            console.error(`[${new Date().toISOString()}] ❌ Invalid response from IP API`);
-            return res.status(500).json({ error: "Invalid data from IP API" });
-        }
+        const countryCode = geoData.country;
+        const currency = countryToCurrency[countryCode] || "USD";
 
         const currencyData: CurrencyData = {
-            currency: data.currency,
-            rate: data.rate || 1,
-            countryCode: data.country_code,
+            currency,
+            rate: 1,
+            countryCode,
         };
 
         cache[ip] = { data: currencyData, timestamp: Date.now() };
@@ -92,21 +44,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Store country in a cookie
         res.setHeader(
             "Set-Cookie",
-            serialize(COOKIE_NAME, data.country_code, {
+            serialize(COOKIE_NAME, countryCode, {
                 path: "/",
-                httpOnly: false, // Allow access in client-side JavaScript
+                httpOnly: false,
                 maxAge: 60 * 60 * 24 * 7, // 7 days
                 sameSite: "lax",
             })
         );
 
-        console.log(
-            `[${new Date().toISOString()}] ✅ Fetched and cached currency data for IP: ${ip}, Country: ${data.country_code}`
-        );
+        console.log(`✅ Fetched and cached country data for IP: ${ip}, Country: ${countryCode}`);
 
-        res.status(200).json({ ...currencyData, source: "api" });
+        res.status(200).json({ ...currencyData, source: "geoip-country" });
     } catch (error) {
-        console.error(`[${new Date().toISOString()}] ❌ Error fetching currency data:`, error);
-        res.status(500).json({ error: "Failed to fetch currency" });
+        console.error("❌ Error fetching country data:", error);
+        res.status(500).json({ error: "Failed to fetch country" });
     }
 }
