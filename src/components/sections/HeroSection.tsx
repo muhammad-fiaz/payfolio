@@ -42,7 +42,7 @@ export default function TipForm() {
     const [customCoffee, setCustomCoffee] = useState<number>(1);
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
-    const [amount, setAmount] = useState<number | "">("");
+    const [amount, setAmount] = useState<number | "">(1);
     const [successMessage, setSuccessMessage] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
     const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -56,7 +56,7 @@ export default function TipForm() {
                 const data = await res.json();
 
 
-                setCurrency(countryToCurrency[data.country] || "USD");
+                setCurrency(countryToCurrency[data.countryCode] || "USD");
             } catch (error) {
                 console.error("Failed to fetch currency:", error);
                 setCurrency("USD");
@@ -196,7 +196,7 @@ export default function TipForm() {
         <section className="flex flex-col items-center justify-center min-h-screen px-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-md">
                 {/* Heading with Help Icon */}
-                <div className="flex items-center space-x-2 mb-4">
+                <div className="flex flex-wrap justify-center items-center gap-4 mb-6">
                     <h2 className="text-lg font-semibold text-black dark:text-white">Buy Muhammad Fiaz a coffee</h2>
 
                     {/* Help Icon with Tooltip */}
@@ -216,7 +216,7 @@ export default function TipForm() {
                             <div
                                 className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 text-sm text-black bg-white border border-gray-300 rounded-md shadow-lg transition-opacity duration-200"
                             >
-                                It&#39;s a friendly metaphor, not real coffee. Each &#34;coffee&#34; is $5 and you can buy as many as you like.
+                                It&#39;s a friendly metaphor, not real coffee. Each &#34;coffee&#34; is  {currency} {(selectedCoffees * (amount as number) || 0).toFixed(2)} and you can buy as many as you like.
                             </div>
                         )}
                     </div>
@@ -225,7 +225,7 @@ export default function TipForm() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Coffee Selection */}
                     <div className="flex justify-center items-center space-x-4">
-                        <Image src="/logo.png" alt="Logo" width={50} height={50}/>
+                        <Image src="/logo.png" alt="Logo" width={40} height={40} className="w-10 h-10 sm:w-12 sm:h-12"/>
                         <span className="text-2xl font-semibold text-black">×</span>
 
                         {/* Coffee Buttons */}
@@ -233,7 +233,7 @@ export default function TipForm() {
                             <button
                                 key={value}
                                 type="button"
-                                className={`px-5 py-3 rounded-full font-medium ${
+                                className={`px-4 py-2 sm:px-5 sm:py-3 rounded-full font-medium ${
                                     selectedCoffees === value ? "bg-indigo-600 text-white" : "bg-gray-200"
                                 }`}
                                 onClick={() => handleCoffeeSelection(value)}
@@ -281,8 +281,8 @@ export default function TipForm() {
                         <input
                             type="number"
                             min="1"
-                            step="0.01"
-                            placeholder={`Amount per Coffee (${currency})`}
+                            step="1"
+                            placeholder={`Amount or Cost per Coffee (${currency})`}
                             value={amount}
                             onChange={(e) => {
                                 setAmount(parseFloat(e.target.value) || "");
@@ -299,7 +299,7 @@ export default function TipForm() {
                         className="w-full py-3 px-5 bg-indigo-600 text-white font-semibold rounded-xl"
                         disabled={loading}
                     >
-                        {loading ? "Processing..." : "Tip"}
+                        {loading ? "Processing..." : `Tip ${(selectedCoffees * (amount as number) || 0).toFixed(2)} (${currency})`}
                     </button>
 
                     {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
