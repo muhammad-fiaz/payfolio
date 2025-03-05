@@ -14,11 +14,11 @@ const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 1000
         const timer = setTimeout(() => reject(new Error("Request timed out")), timeout);
 
         fetch(url, options)
-            .then(response => {
+            .then((response) => {
                 clearTimeout(timer);
                 resolve(response);
             })
-            .catch(err => {
+            .catch((err) => {
                 clearTimeout(timer);
                 reject(err);
             });
@@ -28,7 +28,8 @@ const fetchWithTimeout = (url: string, options: RequestInit = {}, timeout = 1000
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
         // Extract user's IP address
-        const ip = (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress;
+        const ip =
+            (req.headers["x-forwarded-for"] as string)?.split(",")[0] || req.socket.remoteAddress;
         if (!ip) {
             console.log(`[${new Date().toISOString()}] ❌ Unable to determine IP address`);
             return res.status(400).json({ error: "Unable to determine IP address" });
@@ -37,8 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const cacheKey = `currencyData-${ip}`; // Unique cache per user
         const cachedData = cache[cacheKey];
 
-        if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_DURATION) {
-            console.log(`[${new Date().toISOString()}] ✅ Serving currency data from cache for IP: ${ip}`);
+        if (cachedData && Date.now() - cachedData.timestamp < CACHE_DURATION) {
+            console.log(
+                `[${new Date().toISOString()}] ✅ Serving currency data from cache for IP: ${ip}`
+            );
             return res.status(200).json({ ...cachedData.data, source: "cache" });
         }
 
@@ -46,7 +49,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(`[${new Date().toISOString()}] 🔄 Fetching fresh currency data for IP: ${ip}`);
         const response = await fetchWithTimeout("https://ipapi.co/json/");
         if (!response.ok) {
-            console.error(`[${new Date().toISOString()}] ❌ HTTP error! Status: ${response.status} - ${response.statusText}`);
+            console.error(
+                `[${new Date().toISOString()}] ❌ HTTP error! Status: ${response.status} - ${response.statusText}`
+            );
             return res.status(response.status).json({ error: "Failed to fetch currency data" });
         }
 
@@ -59,12 +64,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const currencyData: CurrencyData = {
             currency: data.currency,
             rate: data.rate || 1,
-            countryCode: data.country_code
+            countryCode: data.country_code,
         };
 
         cache[cacheKey] = { data: currencyData, timestamp: Date.now() };
 
-        console.log(`[${new Date().toISOString()}] ✅ Successfully fetched and cached currency data for IP: ${ip}`);
+        console.log(
+            `[${new Date().toISOString()}] ✅ Successfully fetched and cached currency data for IP: ${ip}`
+        );
 
         res.status(200).json({ ...currencyData, source: "api" });
     } catch (error) {

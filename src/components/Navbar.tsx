@@ -43,7 +43,11 @@ export default function Navbar() {
                     <div className="flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         {/* Logo */}
                         <div className="flex w-full justify-between lg:w-auto">
-                            <Link href="/" aria-label="Home" className="flex items-center space-x-2 text-black dark:text-black">
+                            <Link
+                                href="/"
+                                aria-label="Home"
+                                className="flex items-center space-x-2 text-black dark:text-black"
+                            >
                                 <span className="font-bold text-lg">Muhammad Fiaz</span>
                             </Link>
 
@@ -54,7 +58,11 @@ export default function Navbar() {
                                 aria-label="Toggle Menu"
                                 aria-expanded={isOpen}
                             >
-                                {isOpen ? <X size={25} className="text-black" /> : <Menu size={25} className="text-black" />}
+                                {isOpen ? (
+                                    <X size={25} className="text-black" />
+                                ) : (
+                                    <Menu size={25} className="text-black" />
+                                )}
                             </button>
                         </div>
 
@@ -62,17 +70,26 @@ export default function Navbar() {
                         <div className="hidden lg:flex lg:items-center lg:space-x-6">
                             <ul className="flex gap-8 text-black">
                                 <li>
-                                    <Link href="https://muhammadfiaz.com/privacy-policy" className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out">
+                                    <Link
+                                        href="https://muhammadfiaz.com/privacy-policy"
+                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                    >
                                         Privacy Policy
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="https://muhammadfiaz.com/terms-of-service" className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out">
+                                    <Link
+                                        href="https://muhammadfiaz.com/terms-of-service"
+                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                    >
                                         Terms of Use
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="https://muhammadfiaz.com/terms-of-service" className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out">
+                                    <Link
+                                        href="https://muhammadfiaz.com/terms-of-service"
+                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                    >
                                         Refund Policy
                                     </Link>
                                 </li>
@@ -81,8 +98,15 @@ export default function Navbar() {
                             {/* Authentication: Show avatar if logged in, otherwise show Sign In button */}
                             {session?.user ? (
                                 <div className="relative" ref={dropdownRef}>
-                                    <button className="w-10 h-10 rounded-full overflow-hidden border border-gray-300" onClick={toggleDropdown}>
-                                        <img src={session.user.image || "/default-avatar.png"} alt="User Avatar" className="w-full h-full object-cover" />
+                                    <button
+                                        className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
+                                        onClick={toggleDropdown}
+                                    >
+                                        <img
+                                            src={session.user.image || "/default-avatar.png"}
+                                            alt="User Avatar"
+                                            className="w-full h-full object-cover"
+                                        />
                                     </button>
                                     <AnimatePresence>
                                         {isDropdownOpen && (
@@ -129,27 +153,45 @@ export default function Navbar() {
                     >
                         <ul className="flex flex-col p-6 space-y-4 text-black">
                             <li>
-                                <Link href="https://muhammadfiaz.com/terms-of-service" onClick={closeMenu} className="block hover:text-gray-600 duration-150">
+                                <Link
+                                    href="https://muhammadfiaz.com/terms-of-service"
+                                    onClick={closeMenu}
+                                    className="block hover:text-gray-600 duration-150"
+                                >
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link href="https://muhammadfiaz.com/privacy-policy" onClick={closeMenu} className="block hover:text-gray-600 duration-150">
+                                <Link
+                                    href="https://muhammadfiaz.com/privacy-policy"
+                                    onClick={closeMenu}
+                                    className="block hover:text-gray-600 duration-150"
+                                >
                                     Terms of Use
                                 </Link>
                             </li>
                             <li>
-                                <Link href="https://muhammadfiaz.com/terms-of-service" onClick={closeMenu} className="block hover:text-gray-600 duration-150">
+                                <Link
+                                    href="https://muhammadfiaz.com/terms-of-service"
+                                    onClick={closeMenu}
+                                    className="block hover:text-gray-600 duration-150"
+                                >
                                     Refund Policy
                                 </Link>
                             </li>
                             <li>
                                 {session?.user ? (
-                                    <button onClick={() => signOut()} className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200">
+                                    <button
+                                        onClick={() => signOut()}
+                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200"
+                                    >
                                         Logout
                                     </button>
                                 ) : (
-                                    <button onClick={() => signIn("github")} className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200">
+                                    <button
+                                        onClick={() => signIn("github")}
+                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200"
+                                    >
                                         Sign In
                                     </button>
                                 )}

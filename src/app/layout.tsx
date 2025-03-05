@@ -5,8 +5,7 @@ import "./globals.css";
 import React from "react";
 import AuthProvider from "@/utils/AuthProvider";
 
-const Navbar = dynamic(() => import(/* webpackPrefetch: true */ "@/components/Navbar"), {
-});
+const Navbar = dynamic(() => import(/* webpackPrefetch: true */ "@/components/Navbar"), {});
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -27,17 +26,17 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 bg-[url('/background.avif')] bg-cover bg-center bg-no-repeat`}>
-        <AuthProvider>
-            <Navbar />
-            <main className="flex-grow">{children}</main>
-        </AuthProvider>
-        </body>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 bg-[url('/background.avif')] bg-cover bg-center bg-no-repeat`}
+            >
+                <AuthProvider>
+                    <Navbar />
+                    <main className="flex-grow">{children}</main>
+                </AuthProvider>
+            </body>
         </html>
     );
 }

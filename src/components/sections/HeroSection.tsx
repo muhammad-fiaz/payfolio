@@ -1,11 +1,10 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 import countryToCurrency from "@/utils/CurrencyProvider";
-
 
 declare global {
     interface Window {
@@ -48,13 +47,11 @@ export default function TipForm() {
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [currency, setCurrency] = useState<string>("USD");
 
-
     useEffect(() => {
         const fetchCurrency = async () => {
             try {
                 const res = await fetch("/api/currency");
                 const data = await res.json();
-
 
                 setCurrency(countryToCurrency[data.countryCode] || "USD");
             } catch (error) {
@@ -66,7 +63,6 @@ export default function TipForm() {
         fetchCurrency();
     }, []);
 
-
     // Validation Errors
     const [errors, setErrors] = useState({
         coffee: "",
@@ -77,8 +73,6 @@ export default function TipForm() {
     // Load Razorpay SDK dynamically
     const loadRazorpayScript = async () => {
         return new Promise((resolve) => {
-      
-
             if (window.Razorpay) {
                 resolve(true);
             }
@@ -160,7 +154,7 @@ export default function TipForm() {
                 return;
             }
 
-            const options:RazorpayOptions = {
+            const options: RazorpayOptions = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
                 amount: totalAmount * 100,
                 currency: currency,
@@ -191,13 +185,14 @@ export default function TipForm() {
         }
     };
 
-
     return (
         <section className="flex flex-col items-center justify-center min-h-screen px-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 w-full max-w-md">
                 {/* Heading with Help Icon */}
                 <div className="flex flex-wrap justify-center items-center gap-4 mb-6">
-                    <h2 className="text-lg font-semibold text-black dark:text-white">Buy Muhammad Fiaz a coffee</h2>
+                    <h2 className="text-lg font-semibold text-black dark:text-white">
+                        Buy Muhammad Fiaz a coffee
+                    </h2>
 
                     {/* Help Icon with Tooltip */}
                     <div className="relative">
@@ -213,10 +208,11 @@ export default function TipForm() {
                         </button>
 
                         {tooltipVisible && (
-                            <div
-                                className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 text-sm text-black bg-white border border-gray-300 rounded-md shadow-lg transition-opacity duration-200"
-                            >
-                                It&#39;s a friendly metaphor, not real coffee. Each &#34;coffee&#34; is  {currency} {(selectedCoffees * (amount as number) || 0).toFixed(2)} and you can buy as many as you like.
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 text-sm text-black bg-white border border-gray-300 rounded-md shadow-lg transition-opacity duration-200">
+                                It&#39;s a friendly metaphor, not real coffee. Each &#34;coffee&#34;
+                                is {currency}{" "}
+                                {(selectedCoffees * (amount as number) || 0).toFixed(2)} and you can
+                                buy as many as you like.
                             </div>
                         )}
                     </div>
@@ -225,7 +221,13 @@ export default function TipForm() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Coffee Selection */}
                     <div className="flex justify-center items-center space-x-4">
-                        <Image src="/logo.png" alt="Logo" width={40} height={40} className="w-10 h-10 sm:w-12 sm:h-12"/>
+                        <Image
+                            src="/logo.png"
+                            alt="Logo"
+                            width={40}
+                            height={40}
+                            className="w-10 h-10 sm:w-12 sm:h-12"
+                        />
                         <span className="text-2xl font-semibold text-black">×</span>
 
                         {/* Coffee Buttons */}
@@ -234,7 +236,9 @@ export default function TipForm() {
                                 key={value}
                                 type="button"
                                 className={`px-4 py-2 sm:px-5 sm:py-3 rounded-full font-medium ${
-                                    selectedCoffees === value ? "bg-indigo-600 text-white" : "bg-gray-200"
+                                    selectedCoffees === value
+                                        ? "bg-indigo-600 text-white"
+                                        : "bg-gray-200"
                                 }`}
                                 onClick={() => handleCoffeeSelection(value)}
                             >
@@ -267,13 +271,13 @@ export default function TipForm() {
 
                     {/* Message Input */}
                     <div>
-            <textarea
-                rows={3}
-                placeholder="Say something nice..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="mt-2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
+                        <textarea
+                            rows={3}
+                            placeholder="Say something nice..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            className="mt-2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
                     </div>
 
                     {/* Amount Input */}
@@ -286,11 +290,13 @@ export default function TipForm() {
                             value={amount}
                             onChange={(e) => {
                                 setAmount(parseFloat(e.target.value) || "");
-                                setErrors({...errors, amount: ""});
+                                setErrors({ ...errors, amount: "" });
                             }}
                             className="mt-2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
-                        {errors.amount && <span className="text-red-500 text-sm">{errors.amount}</span>}
+                        {errors.amount && (
+                            <span className="text-red-500 text-sm">{errors.amount}</span>
+                        )}
                     </div>
 
                     {/* Tip Button */}
@@ -299,12 +305,21 @@ export default function TipForm() {
                         className="w-full py-3 px-5 bg-indigo-600 text-white font-semibold rounded-xl"
                         disabled={loading}
                     >
-                        {loading ? "Processing..." : `Tip ${(selectedCoffees * (amount as number) || 0).toFixed(2)} (${currency})`}
+                        {loading
+                            ? "Processing..."
+                            : `Tip ${(selectedCoffees * (amount as number) || 0).toFixed(2)} (${currency})`}
                     </button>
 
-                    {successMessage && <p className="text-green-600 text-sm text-center">{successMessage}</p>}
-                    <p className="text-center text-sm text-gray-500 mt-3">Payments go directly to <Link href={'https://github.com/muhammad-fiaz'} className={"text-blue-500"}> Muhammad Fiaz.</Link></p>
-
+                    {successMessage && (
+                        <p className="text-green-600 text-sm text-center">{successMessage}</p>
+                    )}
+                    <p className="text-center text-sm text-gray-500 mt-3">
+                        Payments go directly to{" "}
+                        <Link href={"https://github.com/muhammad-fiaz"} className={"text-blue-500"}>
+                            {" "}
+                            Muhammad Fiaz.
+                        </Link>
+                    </p>
                 </form>
             </div>
             {/* Error Popup Modal */}
@@ -322,7 +337,6 @@ export default function TipForm() {
                     </div>
                 </div>
             )}
-
         </section>
     );
 }
