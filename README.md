@@ -1,8 +1,27 @@
-<img src="https://github.com/user-attachments/assets/fc687071-057f-4680-9f2a-57aab7cf352e" alt="Preview" />
+<div style="text-align: center;">
+    <img src="https://github.com/user-attachments/assets/fc687071-057f-4680-9f2a-57aab7cf352e" alt="Preview" />
+    <h1>Payfolio</h1>
 
-<h1 style="text-align: center;">Payfolio</h1>
+[![GitHub last commit](https://img.shields.io/github/last-commit/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/commits/main)
+[![GitHub license](https://img.shields.io/github/license/muhammad-fiaz/payfolio)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/pulls)
+[![GitHub contributors](https://img.shields.io/github/contributors/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/graphs/contributors)
+[![GitHub maintainer](https://img.shields.io/badge/maintainer-Muhammad%20Fiaz-blue)](https://github.com/muhammad-fiaz)
+[![GitHub repo size](https://img.shields.io/github/repo-size/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio)
+[![GitHub code size](https://img.shields.io/github/languages/code-size/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio)
+[![GitHub forks](https://img.shields.io/github/forks/muhammad-fiaz/payfolio?style=social)](https://github.com/muhammad-fiaz/payfolio/network/members)
+[![GitHub stars](https://img.shields.io/github/stars/muhammad-fiaz/payfolio?style=social)](https://github.com/muhammad-fiaz/payfolio/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/muhammad-fiaz/payfolio?style=social)](https://github.com/muhammad-fiaz/payfolio/watchers)
+[![GitHub open issues](https://img.shields.io/github/issues/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub discussions](https://img.shields.io/github/discussions/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio/discussions)
+[![GitHub language count](https://img.shields.io/github/languages/count/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio)
+[![GitHub top language](https://img.shields.io/github/languages/top/muhammad-fiaz/payfolio)](https://github.com/muhammad-fiaz/payfolio)
 
-Payfolio is a web application designed to make it easy for users to support creators by making small contributions. The platform allows users to choose the number of coffees they want to buy, enter their name and a message (both optional), specify the amount, and donate.
+</div>
+
+Payfolio is a self-hosted payment application that serves as an alternative to Patreon, Ko-fi, and Buy Me a Coffee. It enables users to support creators by making small contributions. The platform allows users to choose the number of coffees they want to buy, enter their name and a message (both optional), specify the amount, and donate.
 
 ## Features
 

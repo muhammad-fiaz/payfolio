@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import countryToCurrency from "@/utils/CurrencyProvider";
+import Cookies from "js-cookie";
 
 declare global {
     interface Window {
@@ -49,26 +50,31 @@ export default function TipForm() {
     useEffect(() => {
         const fetchCurrency = async () => {
             try {
-                // Get client IP
-                const ipRes = await fetch("https://api64.ipify.org?format=json");
-                const ipData = await ipRes.json();
-                const clientIP = ipData.ip;
+                // Check if currency exists in cookies
+                const storedCurrency = Cookies.get("currency");
+                if (storedCurrency) {
+                    setCurrency(storedCurrency);
+                    return;
+                }
 
-                if (!clientIP) throw new Error("Failed to retrieve IP");
+                // Fetch country info from IP
+                const geoRes = await fetch("https://ipapi.co/json/");
+                const geoData = await geoRes.json();
 
-                // Fetch country code from API using IP
-                const countryRes = await fetch(`/api/currency?ip=${clientIP}`);
-                const countryData = await countryRes.json();
-                const countryCode = countryData.countryCode;
+                if (!geoData.country) {
+                    throw new Error("Failed to retrieve country");
+                }
 
-                if (!countryCode) throw new Error("Country Currency not Supported");
-
-                // Map country code to currency
+                const countryCode = geoData.country.toUpperCase(); // Ensure uppercase
                 const detectedCurrency = countryToCurrency[countryCode] || "USD";
+
+                // Store currency in a cookie (expires in 7 days)
+                Cookies.set("currency", detectedCurrency, { expires: 7, sameSite: "Lax" });
+
                 setCurrency(detectedCurrency);
             } catch (error) {
                 console.error("Error fetching currency:", error);
-                setCurrency("USD");
+                setCurrency("USD"); // Default fallback
             }
         };
 
@@ -149,6 +155,7 @@ export default function TipForm() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ amount: totalAmount * 100, currency }),
             });
+            if (!res.ok) throw new Error("Failed to fetch payment details");
 
             const data = await res.json();
             if (!data.id) {
