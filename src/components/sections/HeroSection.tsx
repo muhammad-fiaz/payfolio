@@ -41,21 +41,33 @@ export default function TipForm() {
     const [customCoffee, setCustomCoffee] = useState<number>(1);
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
-    const [amount, setAmount] = useState<number | "">(1);
+    const [amount, setAmount] = useState<number | "">(10);
     const [successMessage, setSuccessMessage] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [currency, setCurrency] = useState<string>("USD");
-
     useEffect(() => {
         const fetchCurrency = async () => {
             try {
-                const res = await fetch("/api/currency");
-                const data = await res.json();
+                // Get client IP
+                const ipRes = await fetch("https://api64.ipify.org?format=json");
+                const ipData = await ipRes.json();
+                const clientIP = ipData.ip;
 
-                setCurrency(countryToCurrency[data.countryCode] || "USD");
+                if (!clientIP) throw new Error("Failed to retrieve IP");
+
+                // Fetch country code from API using IP
+                const countryRes = await fetch(`/api/currency?ip=${clientIP}`);
+                const countryData = await countryRes.json();
+                const countryCode = countryData.countryCode;
+
+                if (!countryCode) throw new Error("Country Currency not Supported");
+
+                // Map country code to currency
+                const detectedCurrency = countryToCurrency[countryCode] || "USD";
+                setCurrency(detectedCurrency);
             } catch (error) {
-                console.error("Failed to fetch currency:", error);
+                console.error("Error fetching currency:", error);
                 setCurrency("USD");
             }
         };
