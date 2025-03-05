@@ -1,8 +1,10 @@
+# Payfolio
+
 <img src="https://github.com/user-attachments/assets/fc687071-057f-4680-9f2a-57aab7cf352e" alt="Preview" />
 
 <h1 style="text-align: center;">Payfolio</h1>
 
-Payfolio is a web application designed to make it easy for users to support creators by making small contributions. The platform allows users to choose the number of coffees they want to buy, enter their name and a message (both optional), specify the amount, and donate.
+Payfolio is a self-hosted payment application that serves as an alternative to Patreon, Ko-fi, and Buy Me a Coffee. It enables users to support creators by making small contributions. The platform allows users to choose the number of coffees they want to buy, enter their name and a message (both optional), specify the amount, and donate.
 
 ## Features
 
