@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import Image from "next/image";
 export default function Navbar() {
     const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false);
@@ -102,8 +102,10 @@ export default function Navbar() {
                                         className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
                                         onClick={toggleDropdown}
                                     >
-                                        <img
-                                            src={session.user.image || "/default-avatar.png"}
+                                        <Image
+                                            src={session.user.image || "/default-profile.avif"}
+                                            width={40}
+                                            height={40}
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
