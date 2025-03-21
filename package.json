@@ -20,7 +20,7 @@
         "js-cookie": "^3.0.5",
         "lucide-react": "^0.477.0",
         "motion": "^12.4.10",
-        "next": "15.2.1",
+        "next": "15.2.3",
         "next-auth": "^4.24.11",
         "razorpay": "^2.9.6",
         "react": "^19.0.0",
