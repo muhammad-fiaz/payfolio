@@ -47,6 +47,8 @@ export default function TipForm() {
     const [loading, setLoading] = useState<boolean>(false);
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [currency, setCurrency] = useState<string>("USD");
+    const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
+
     useEffect(() => {
         const fetchCurrency = async () => {
             try {
@@ -79,6 +81,9 @@ export default function TipForm() {
         };
 
         fetchCurrency();
+
+        // Initialize currency options
+        setCurrencyOptions(Object.values(countryToCurrency));
     }, []);
 
     // Validation Errors
@@ -299,8 +304,8 @@ export default function TipForm() {
                         />
                     </div>
 
-                    {/* Amount Input */}
-                    <div>
+                    {/* Amount and Currency Input */}
+                    <div className="flex space-x-2">
                         <input
                             type="number"
                             min="1"
@@ -311,12 +316,21 @@ export default function TipForm() {
                                 setAmount(parseFloat(e.target.value) || "");
                                 setErrors({ ...errors, amount: "" });
                             }}
-                            className="mt-2 block w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-2 block w-3/4 px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
-                        {errors.amount && (
-                            <span className="text-red-500 text-sm">{errors.amount}</span>
-                        )}
+                        <select
+                            value={currency}
+                            onChange={(e) => setCurrency(e.target.value)}
+                            className="mt-2 block w-1/4 px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            {currencyOptions.map((currencyOption) => (
+                                <option key={currencyOption} value={currencyOption}>
+                                    {currencyOption}
+                                </option>
+                            ))}
+                        </select>
                     </div>
+                    {errors.amount && <span className="text-red-500 text-sm">{errors.amount}</span>}
 
                     {/* Tip Button */}
                     <button

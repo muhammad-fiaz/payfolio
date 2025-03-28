@@ -4,8 +4,10 @@ import dynamic from "next/dynamic";
 import "./globals.css";
 import React from "react";
 import AuthProvider from "@/utils/AuthProvider";
+import Background from "@/assets/background.png";
+import Image from "next/image";
 
-const Navbar = dynamic(() => import(/* webpackPrefetch: true */ "@/components/Navbar"), {});
+const Navbar = dynamic(() => import("@/components/Navbar"));
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -30,11 +32,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="en">
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 bg-[url('/background.avif')] bg-cover bg-center bg-no-repeat`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 relative`}
             >
+                <div className="absolute top-0 left-0 w-full h-full -z-10">
+                    <Image
+                        src={Background}
+                        alt="Background"
+                        priority
+                        className={"bg-cover bg-center w-full h-full object-cover"}
+                        loading="eager"
+                    />
+                </div>
                 <AuthProvider>
                     <Navbar />
-                    <main className="flex-grow">{children}</main>
+                    <main className="flex-grow">
+                        <div className="container mx-auto p-4">{children}</div>
+                    </main>
                 </AuthProvider>
             </body>
         </html>
