@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import "./globals.css";
 import React from "react";
 import AuthProvider from "@/utils/AuthProvider";
+import BackgroundImage from "@/components/Background";
 import Background from "@/assets/background.png";
-import Image from "next/image";
 
 const Navbar = dynamic(() => import("@/components/Navbar"));
 
@@ -31,18 +31,19 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
+            <head>
+                <link
+                    rel="preload"
+                    href={Background.src}
+                    as="image"
+                    type="image/png"
+                    media="(min-width: 1px)"
+                />
+            </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 relative`}
             >
-                <div className="absolute top-0 left-0 w-full h-full -z-10">
-                    <Image
-                        src={Background}
-                        alt="Background"
-                        priority
-                        className={"bg-cover bg-center w-full h-full object-cover"}
-                        loading="eager"
-                    />
-                </div>
+                <BackgroundImage />
                 <AuthProvider>
                     <Navbar />
                     <main className="flex-grow">
