@@ -14,13 +14,14 @@
         "**/*": "prettier --write --ignore-unknown"
     },
     "dependencies": {
+        "@radix-ui/react-select": "^2.1.6",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cookie": "^1.0.2",
         "js-cookie": "^3.0.5",
-        "lucide-react": "^0.477.0",
-        "motion": "^12.4.10",
-        "next": "15.2.3",
+        "lucide-react": "^0.484.0",
+        "motion": "^12.6.2",
+        "next": "15.2.4",
         "next-auth": "^4.24.11",
         "razorpay": "^2.9.6",
         "react": "^19.0.0",
@@ -29,19 +30,19 @@
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
-        "@eslint/eslintrc": "^3.3.0",
-        "@tailwindcss/postcss": "^4.0.9",
+        "@eslint/eslintrc": "^3.3.1",
+        "@tailwindcss/postcss": "^4.0.17",
         "@types/cookie": "^1.0.0",
         "@types/js-cookie": "^3.0.6",
-        "@types/node": "^22.13.9",
-        "@types/react": "^19.0.10",
+        "@types/node": "^22.13.14",
+        "@types/react": "^19.0.12",
         "@types/react-dom": "^19.0.4",
-        "eslint": "^9.21.0",
-        "eslint-config-next": "15.2.1",
+        "eslint": "^9.23.0",
+        "eslint-config-next": "15.2.4",
         "husky": "^9.1.7",
-        "lint-staged": "^15.4.3",
+        "lint-staged": "^15.5.0",
         "prettier": "3.5.3",
-        "tailwindcss": "^4.0.9",
+        "tailwindcss": "^4.0.17",
         "typescript": "^5.8.2"
     }
 }
