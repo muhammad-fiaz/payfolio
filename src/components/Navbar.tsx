@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 export default function Navbar() {
     const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-2 left-1/2 transform -translate-x-1/2 w-3/4 lg:w-1/2 bg-white shadow-lg rounded-4xl z-50"
+            className="absolute top-2 left-1/2 transform -translate-x-1/2 w-[95vw] sm:w-3/4 lg:w-1/2 bg-white shadow-lg rounded-4xl z-50"
         >
             <nav className="z-20 justify-center flex w-full px-6 py-2">
                 <div className="mx-auto max-w-full w-full">
@@ -52,9 +53,9 @@ export default function Navbar() {
                             </Link>
 
                             {/* Mobile Menu Button */}
-                            <button
+                            <Button
                                 onClick={toggleMenu}
-                                className="relative z-20 block p-2.5 lg:hidden"
+                                className="relative z-20 block p-2.5 lg:hidden bg-transparent"
                                 aria-label="Toggle Menu"
                                 aria-expanded={isOpen}
                             >
@@ -63,7 +64,7 @@ export default function Navbar() {
                                 ) : (
                                     <Menu size={25} className="text-black" />
                                 )}
-                            </button>
+                            </Button>
                         </div>
 
                         {/* Desktop Navigation Menu */}
@@ -71,7 +72,7 @@ export default function Navbar() {
                             <ul className="flex gap-8 text-black">
                                 <li>
                                     <Link
-                                        href="https://muhammadfiaz.com/privacy-policy"
+                                        href="/privacy-policy"
                                         className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
                                     >
                                         Privacy Policy
@@ -79,15 +80,15 @@ export default function Navbar() {
                                 </li>
                                 <li>
                                     <Link
-                                        href="https://muhammadfiaz.com/terms-of-service"
+                                        href="/terms-of-service"
                                         className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
                                     >
-                                        Terms of Use
+                                        Terms of Service
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        href="https://muhammadfiaz.com/terms-of-service"
+                                        href="/refund-policy"
                                         className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
                                     >
                                         Refund Policy
@@ -98,8 +99,8 @@ export default function Navbar() {
                             {/* Authentication: Show avatar if logged in, otherwise show Sign In button */}
                             {session?.user ? (
                                 <div className="relative" ref={dropdownRef}>
-                                    <button
-                                        className="w-10 h-10 rounded-full overflow-hidden border border-gray-300"
+                                    <Button
+                                        className="w-10 h-10 rounded-full overflow-hidden border border-gray-300 bg-transparent"
                                         onClick={toggleDropdown}
                                     >
                                         <Image
@@ -109,7 +110,7 @@ export default function Navbar() {
                                             alt="User Avatar"
                                             className="w-full h-full object-cover"
                                         />
-                                    </button>
+                                    </Button>
                                     <AnimatePresence>
                                         {isDropdownOpen && (
                                             <motion.div
@@ -119,23 +120,32 @@ export default function Navbar() {
                                                 transition={{ duration: 0.2 }}
                                                 className="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg"
                                             >
-                                                <button
-                                                    onClick={() => signOut()}
-                                                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                                >
-                                                    Logout
-                                                </button>
+                                                {session?.user ? (
+                                                    <Button
+                                                        onClick={() => signOut()}
+                                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                                    >
+                                                        Logout
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        onClick={() => signIn("github")}
+                                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                                    >
+                                                        Sign In
+                                                    </Button>
+                                                )}
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
                                 </div>
                             ) : (
-                                <button
+                                <Button
                                     onClick={() => signIn("github")}
                                     className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white hover:bg-gray-100 text-black"
                                 >
                                     Sign In
-                                </button>
+                                </Button>
                             )}
                         </div>
                     </div>
@@ -153,10 +163,10 @@ export default function Navbar() {
                         id="mobile-menu"
                         className="lg:hidden fixed top-[90px] left-1/2 transform -translate-x-1/2 w-11/12 max-w-sm bg-white border border-black/30 shadow-lg rounded-lg"
                     >
-                        <ul className="flex flex-col p-6 space-y-4 text-black">
+                        <ul className="flex flex-col p-6 space-y-4 text-black items-center">
                             <li>
                                 <Link
-                                    href="https://muhammadfiaz.com/terms-of-service"
+                                    href="/privacy-policy"
                                     onClick={closeMenu}
                                     className="block hover:text-gray-600 duration-150"
                                 >
@@ -165,16 +175,16 @@ export default function Navbar() {
                             </li>
                             <li>
                                 <Link
-                                    href="https://muhammadfiaz.com/privacy-policy"
+                                    href="/terms-of-service"
                                     onClick={closeMenu}
                                     className="block hover:text-gray-600 duration-150"
                                 >
-                                    Terms of Use
+                                    Terms of Service
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="https://muhammadfiaz.com/terms-of-service"
+                                    href="/refund-policy"
                                     onClick={closeMenu}
                                     className="block hover:text-gray-600 duration-150"
                                 >
@@ -183,19 +193,19 @@ export default function Navbar() {
                             </li>
                             <li>
                                 {session?.user ? (
-                                    <button
+                                    <Button
                                         onClick={() => signOut()}
                                         className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200"
                                     >
                                         Logout
-                                    </button>
+                                    </Button>
                                 ) : (
-                                    <button
+                                    <Button
                                         onClick={() => signIn("github")}
-                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200"
+                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200 text-black"
                                     >
                                         Sign In
-                                    </button>
+                                    </Button>
                                 )}
                             </li>
                         </ul>
