@@ -77,7 +77,7 @@ export function TipFormUI(props: TipFormUIProps) {
                             ?
                         </Button>
                         {tooltipVisible && (
-                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 text-sm text-black bg-white border border-gray-300 rounded-md shadow-lg transition-opacity duration-200">
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 text-sm text-black bg-white border border-gray-300 rounded-md shadow-lg transition-opacity duration-200 z-[100]">
                                 It&#39;s a friendly metaphor, not real coffee. Each &#34;coffee&#34;
                                 is {currency}{" "}
                                 {(selectedCoffees * (amount as number) || 0).toFixed(2)} and you can
