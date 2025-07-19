@@ -5,8 +5,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 export default function Navbar() {
     const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +73,7 @@ export default function Navbar() {
                                 <li>
                                     <Link
                                         href="/privacy-policy"
-                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                        className="hover:bg-gray-100 hover:text-gray-700 px-2 py-1 rounded transition-colors duration-150"
                                     >
                                         Privacy Policy
                                     </Link>
@@ -81,7 +81,7 @@ export default function Navbar() {
                                 <li>
                                     <Link
                                         href="/terms-of-service"
-                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                        className="hover:bg-gray-100 hover:text-gray-700 px-2 py-1 rounded transition-colors duration-150"
                                     >
                                         Terms of Service
                                     </Link>
@@ -89,7 +89,7 @@ export default function Navbar() {
                                 <li>
                                     <Link
                                         href="/refund-policy"
-                                        className="hover:text-gray-600 hover:underline duration-150 transition-colors ease-in-out"
+                                        className="hover:bg-gray-100 hover:text-gray-700 px-2 py-1 rounded transition-colors duration-150"
                                     >
                                         Refund Policy
                                     </Link>
@@ -100,16 +100,18 @@ export default function Navbar() {
                             {session?.user ? (
                                 <div className="relative" ref={dropdownRef}>
                                     <Button
-                                        className="w-10 h-10 rounded-full overflow-hidden border border-gray-300 bg-transparent"
+                                        className="w-10 h-10 rounded-full overflow-hidden border border-gray-300 bg-transparent p-0"
                                         onClick={toggleDropdown}
                                     >
-                                        <Image
-                                            src={session.user.image || "/default-profile.avif"}
-                                            width={40}
-                                            height={40}
-                                            alt="User Avatar"
-                                            className="w-full h-full object-cover"
-                                        />
+                                        <Avatar className="w-10 h-10">
+                                            <AvatarImage
+                                                src={session.user.image || "/default-profile.avif"}
+                                                alt="User Avatar"
+                                            />
+                                            <AvatarFallback>
+                                                {session.user.name?.charAt(0) ?? "U"}
+                                            </AvatarFallback>
+                                        </Avatar>
                                     </Button>
                                     <AnimatePresence>
                                         {isDropdownOpen && (
@@ -119,18 +121,19 @@ export default function Navbar() {
                                                 exit={{ opacity: 0, y: -10 }}
                                                 transition={{ duration: 0.2 }}
                                                 className="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg"
+                                                style={{ background: "rgba(255,255,255,0.98)" }}
                                             >
                                                 {session?.user ? (
                                                     <Button
                                                         onClick={() => signOut()}
-                                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                                        className="block w-full px-4 py-2 text-left bg-white hover:bg-gray-100 text-black"
                                                     >
                                                         Logout
                                                     </Button>
                                                 ) : (
                                                     <Button
                                                         onClick={() => signIn("github")}
-                                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                                        className="block w-full px-4 py-2 text-left bg-white hover:bg-gray-100 text-black"
                                                     >
                                                         Sign In
                                                     </Button>
@@ -168,7 +171,7 @@ export default function Navbar() {
                                 <Link
                                     href="/privacy-policy"
                                     onClick={closeMenu}
-                                    className="block hover:text-gray-600 duration-150"
+                                    className="block px-2 py-1 rounded hover:bg-gray-100 hover:text-gray-700 transition-colors duration-150"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -177,7 +180,7 @@ export default function Navbar() {
                                 <Link
                                     href="/terms-of-service"
                                     onClick={closeMenu}
-                                    className="block hover:text-gray-600 duration-150"
+                                    className="block px-2 py-1 rounded hover:bg-gray-100 hover:text-gray-700 transition-colors duration-150"
                                 >
                                     Terms of Service
                                 </Link>
@@ -186,7 +189,7 @@ export default function Navbar() {
                                 <Link
                                     href="/refund-policy"
                                     onClick={closeMenu}
-                                    className="block hover:text-gray-600 duration-150"
+                                    className="block px-2 py-1 rounded hover:bg-gray-100 hover:text-gray-700 transition-colors duration-150"
                                 >
                                     Refund Policy
                                 </Link>
@@ -195,14 +198,14 @@ export default function Navbar() {
                                 {session?.user ? (
                                     <Button
                                         onClick={() => signOut()}
-                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200"
+                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 text-black"
                                     >
                                         Logout
                                     </Button>
                                 ) : (
                                     <Button
                                         onClick={() => signIn("github")}
-                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200 text-black"
+                                        className="block text-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 text-black"
                                     >
                                         Sign In
                                     </Button>
